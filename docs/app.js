@@ -128,6 +128,10 @@ async function processImage() {
   }
 }
 
+// Display names match the terms used in this version's report.
+const label = name => name.replace("end-to-end", "direct ISP").replace("light student", "tiny model")
+  .replace("teacher", "reference model").replace("student", "compact model");
+
 function results(summary) {
   const t = $("table");
   const head = t.createTHead().insertRow();
@@ -136,7 +140,7 @@ function results(summary) {
   summary.rows.forEach(r => {
     const tr = body.insertRow();
     if (r[0] === "Hybrid student INT8") tr.className = "mine";
-    r.forEach(v => { tr.insertCell().textContent = v; });
+    r.forEach((v, i) => { tr.insertCell().textContent = i ? v : label(v); });
   });
 }
 
